@@ -1,4 +1,4 @@
-# Verilog Testbench for CRC_serial16 Module
+# Verilog code of 16 bit serial CRC coding
 
 This repository contains a Verilog testbench for the `CRC_serial16` module, designed for CRC (Cyclic Redundancy Check) calculations.
 
