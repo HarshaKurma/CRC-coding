@@ -1,4 +1,4 @@
-module CRC_CCITT(iClock, iEn, iRST, iMSG, oCRC);
+module CRC_serial16(iClock, iEn, iRST, iMSG, oCRC);
 
 parameter INITIAL_VALUE = 16'hFFFF;
 input wire iClock, iEn, iRST, iMSG;
