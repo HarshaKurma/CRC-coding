@@ -1,0 +1,18 @@
+module Shift_Reg(iClock, iEn, iRST, in, out);
+
+parameter INITIAL = 1'b1;
+
+input wire iClock, iEn, iRST, in;
+output wire out;
+reg data;
+initial data <= INITIAL;
+always @(posedge iClock) begin
+if(iRST)
+data <= INITIAL;
+else if(iEn)
+data <= in;
+else
+data <= data;
+end
+assign out = data;
+endmodule

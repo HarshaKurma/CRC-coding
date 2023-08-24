@@ -1,0 +1,25 @@
+module CRC_CCITT(iClock, iEn, iRST, iMSG, oCRC);
+
+parameter INITIAL_VALUE = 16'hFFFF;
+input wire iClock, iEn, iRST, iMSG;
+output wire [15:0] oCRC;
+wire final;
+// polynomial used: 0x1021
+Shift_Reg #(INITIAL_VALUE[0] ) u0 (iClock, iEn, iRST, iMSG ^ oCRC[15],oCRC[0]);
+Shift_Reg #(INITIAL_VALUE[1] ) u1 (iClock, iEn, iRST, oCRC[0], oCRC[1]);
+Shift_Reg #(INITIAL_VALUE[2] ) u2 (iClock, iEn, iRST, oCRC[1], oCRC[2]);
+Shift_Reg #(INITIAL_VALUE[3] ) u3 (iClock, iEn, iRST, oCRC[2], oCRC[3]);
+Shift_Reg #(INITIAL_VALUE[4] ) u4 (iClock, iEn, iRST, oCRC[3], oCRC[4]);
+Shift_Reg #(INITIAL_VALUE[5] ) u5 (iClock, iEn, iRST, oCRC[4] ^ oCRC[15],
+oCRC[5]);
+Shift_Reg #(INITIAL_VALUE[6] ) u6 (iClock, iEn, iRST, oCRC[5], oCRC[6]);
+Shift_Reg #(INITIAL_VALUE[7] ) u7 (iClock, iEn, iRST, oCRC[6], oCRC[7]);
+Shift_Reg #(INITIAL_VALUE[8] ) u8 (iClock, iEn, iRST, oCRC[7], oCRC[8]);
+Shift_Reg #(INITIAL_VALUE[9] ) u9 (iClock, iEn, iRST, oCRC[8], oCRC[9]);
+Shift_Reg #(INITIAL_VALUE[10]) u10(iClock, iEn, iRST, oCRC[9], oCRC[10]);
+Shift_Reg #(INITIAL_VALUE[11]) u11(iClock, iEn, iRST, oCRC[10], oCRC[11]);
+Shift_Reg #(INITIAL_VALUE[12]) u12(iClock, iEn, iRST, oCRC[11] ^ oCRC[15],oCRC[12]);
+Shift_Reg #(INITIAL_VALUE[13]) u13(iClock, iEn, iRST, oCRC[12], oCRC[13]);
+Shift_Reg #(INITIAL_VALUE[14]) u14(iClock, iEn, iRST, oCRC[13], oCRC[14]);
+Shift_Reg #(INITIAL_VALUE[15]) u15(iClock, iEn, iRST, oCRC[14], oCRC[15]);
+endmodule

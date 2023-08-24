@@ -1,0 +1,44 @@
+module TestBench;
+parameter LENGTH = 368;
+reg iClock, iEn, iRST, iMSG;
+wire [15:0] oCRC;
+integer i;
+reg [LENGTH-1:0] msg;
+CRC_CCITT dut(iClock, iEn, iRST, iMSG, oCRC);
+initial begin
+msg <= 368'h54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e0000; 
+//msg <= 368'h54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672eea0c;
+ // received - correct
+// msg <= 368'h54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e1111; 
+// error test
+
+#5;
+$display($time, " << Starting the Simulation >>");
+$display("Original Message: %s, Hex code: %x", msg, msg);
+//$display("Received Message (hex): %x", msg);
+iEn <= 0;
+iRST <= 1;
+iMSG <= 0;
+#7;
+iEn <= 1;
+iRST <= 0;
+for(i = 0; i < LENGTH; i = i + 1) begin
+iMSG <= msg[LENGTH-1 - i]; #10;
+end
+iEn <= 0; #10;
+$display($time, " i = %d, msg = %b, CRC = %b, CRC = %x", i, iMSG, oCRC,oCRC);
+//$display($time, " i = %d, msg = %b, Syndrome = %b, Syndrome = %x", i, iMSG, oCRC, oCRC);
+if(oCRC == 0)
+$display("Result: Code is good.");
+else
+$display("Result: There's an error here");
+$stop;
+end
+always begin
+iClock <= 0; #5;
+iClock <= 1; #5;
+end
+always @(posedge iClock) begin
+//$display($time, " i = %d, msg = %b, CRC = %b, CRC = %x", i, iMSG, oCRC, oCRC);
+end
+endmodule
